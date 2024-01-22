@@ -1,3 +1,3 @@
 export default function Page() {
-    return <p>Invetory Page</p>;
+    return <p>Inventory Page</p>;
   }
