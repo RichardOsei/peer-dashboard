@@ -1,6 +1,7 @@
 const { db } = require('@vercel/postgres');
 const {
   invoices,
+  inventories,
   customers,
   revenue,
   users,
@@ -95,8 +96,7 @@ async function seedCustomers(client) {
       CREATE TABLE IF NOT EXISTS customers (
         id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
         name VARCHAR(255) NOT NULL,
-        email VARCHAR(255) NOT NULL,
-        image_url VARCHAR(255) NOT NULL
+        email VARCHAR(255) NOT NULL
       );
     `;
 
@@ -106,8 +106,8 @@ async function seedCustomers(client) {
     const insertedCustomers = await Promise.all(
       customers.map(
         (customer) => client.sql`
-        INSERT INTO customers (id, name, email, image_url)
-        VALUES (${customer.id}, ${customer.name}, ${customer.email}, ${customer.image_url})
+        INSERT INTO customers (id, name, email)
+        VALUES (${customer.id}, ${customer.name}, ${customer.email})
         ON CONFLICT (id) DO NOTHING;
       `,
       ),
@@ -160,13 +160,62 @@ async function seedRevenue(client) {
   }
 }
 
+
+
+async function seedInventories(client) {
+  try {
+    await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
+
+    // Create the "invoices" table if it doesn't exist
+    const createTable = await client.sql`
+    CREATE TABLE IF NOT EXISTS inventories (
+    id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+    activity VARCHAR(255) NOT NULL,
+    quantity INT NOT NULL,
+    amount INT NOT NULL,
+    status VARCHAR(255) NOT NULL,
+    date DATE NOT NULL
+  );
+`;
+
+console.log(`Created "invoices" table`);
+
+// Insert data into the "invoices" table
+const insertedInventories = await Promise.all(
+  inventories.map(
+    (inventory) => client.sql`
+    INSERT INTO invoices (customer_id, amount, status, date)
+    VALUES (${inventory.activity},${inventory.quantity}, ${inventory.amount}, ${inventory.status}, ${inventory.date})
+    ON CONFLICT (id) DO NOTHING;
+  `,
+  ),
+);
+
+console.log(`Seeded ${insertedInventories.length} inventories`);
+
+    return {
+      createTable,
+      invoices: insertedInventories,
+    };
+  } catch (error) {
+    console.error('Error seeding invoices:', error);
+    throw error;
+  }
+}
+
+
+
+
+
 async function main() {
   const client = await db.connect();
 
   await seedUsers(client);
   await seedCustomers(client);
   await seedInvoices(client);
+  await seedInventories(client)
   await seedRevenue(client);
+
 
   await client.end();
 }

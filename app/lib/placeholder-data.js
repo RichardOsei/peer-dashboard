@@ -9,7 +9,7 @@ const users = [
   },
 ];
 
-const inventory = [
+const inventories = [
   {    
     activity: 'Ordered Oil',
     quantity:40,
@@ -201,6 +201,6 @@ module.exports = {
   users,
   customers,
   invoices,
-  inventory,
+  inventories,
   revenue,
 };

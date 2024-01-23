@@ -1,10 +1,8 @@
 import { sql } from '@vercel/postgres';
 import {
-  CustomerField,
-  CustomersTableType,
-  InvoiceForm,
-  InvoicesTable,
-  LatestInvoiceRaw,
+  CustomerField,  CustomersTableType,
+  InvoiceForm,  InvoicesTable,  LatestInvoiceRaw,
+  InventoryForm,  InventoryTable,  LatestInventoryRaw,
   User,
   Revenue,
 } from './definitions';
@@ -35,7 +33,7 @@ export async function fetchRevenue() {
 export async function fetchLatestInvoices() {
   try {
     const data = await sql<LatestInvoiceRaw>`
-      SELECT invoices.amount, customers.name, customers.image_url, customers.email, invoices.id
+      SELECT invoices.amount, customers.name, customers.email, invoices.id
       FROM invoices
       JOIN customers ON invoices.customer_id = customers.id
       ORDER BY invoices.date DESC
@@ -51,6 +49,7 @@ export async function fetchLatestInvoices() {
     throw new Error('Failed to fetch the latest invoices.');
   }
 }
+
 
 export async function fetchCardData() {
   try {
@@ -103,7 +102,7 @@ export async function fetchFilteredInvoices(
         invoices.status,
         customers.name,
         customers.email,
-        customers.image_url
+        
       FROM invoices
       JOIN customers ON invoices.customer_id = customers.id
       WHERE
@@ -194,7 +193,7 @@ export async function fetchFilteredCustomers(query: string) {
 		  customers.id,
 		  customers.name,
 		  customers.email,
-		  customers.image_url,
+		  
 		  COUNT(invoices.id) AS total_invoices,
 		  SUM(CASE WHEN invoices.status = 'pending' THEN invoices.amount ELSE 0 END) AS total_pending,
 		  SUM(CASE WHEN invoices.status = 'paid' THEN invoices.amount ELSE 0 END) AS total_paid
@@ -203,7 +202,7 @@ export async function fetchFilteredCustomers(query: string) {
 		WHERE
 		  customers.name ILIKE ${`%${query}%`} OR
         customers.email ILIKE ${`%${query}%`}
-		GROUP BY customers.id, customers.name, customers.email, customers.image_url
+		GROUP BY customers.id, customers.name, customers.email,
 		ORDER BY customers.name ASC
 	  `;
 
