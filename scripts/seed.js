@@ -203,10 +203,6 @@ console.log(`Seeded ${insertedInventories.length} inventories`);
   }
 }
 
-
-
-
-
 async function main() {
   const client = await db.connect();
 
