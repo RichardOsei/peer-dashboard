@@ -27,7 +27,7 @@ export default async function InvoicesTable({
                 <div className="flex items-center justify-between border-b pb-4">
                   <div>
                     <div className="mb-2 flex items-center">
-                    <UserCircleIcon/>
+                    <UserCircleIcon className='text-sky-100 w-14'/>
                       <p>{invoice.name}</p>
                     </div>
                     <p className="text-sm text-gray-500">{invoice.email}</p>
@@ -80,7 +80,7 @@ export default async function InvoicesTable({
                 >
                   <td className="whitespace-nowrap py-3 pl-6 pr-3">
                     <div className="flex items-center gap-3">
-                    <UserCircleIcon/>
+                    <UserCircleIcon className='text-sky-100 w-14'/>
                       <p>{invoice.name}</p>
                     </div>
                   </td>
