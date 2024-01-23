@@ -10,17 +10,19 @@ const users = [
 ];
 
 const inventory = [
-  {
-    date: '23/12/2023',
+  {    
     activity: 'Ordered Oil',
     quantity:40,
     amount: 16440,
+    status: 'pending',
+    date: '2022-11-06',
   },
-  {
-    date: '01/01/2024',
+  {    
     activity: 'Ordered Oil',
     quantity:30,
     amount: '1-0275',
+    status: 'paid',
+    date: '2022-12-03',
   },
 ];
 
@@ -199,5 +201,6 @@ module.exports = {
   users,
   customers,
   invoices,
+  inventory,
   revenue,
 };
