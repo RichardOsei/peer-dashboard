@@ -178,13 +178,13 @@ async function seedInventories(client) {
   );
 `;
 
-console.log(`Created "invoices" table`);
+console.log(`Created "inventories" table`);
 
-// Insert data into the "invoices" table
+// Insert data into the "inventory" table
 const insertedInventories = await Promise.all(
   inventories.map(
     (inventory) => client.sql`
-    INSERT INTO invoices (customer_id, amount, status, date)
+    INSERT INTO inventories (activity, quantity, amount, status, date)
     VALUES (${inventory.activity},${inventory.quantity}, ${inventory.amount}, ${inventory.status}, ${inventory.date})
     ON CONFLICT (id) DO NOTHING;
   `,

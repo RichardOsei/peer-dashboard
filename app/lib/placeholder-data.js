@@ -10,20 +10,27 @@ const users = [
 ];
 
 const inventories = [
-  {    
-    activity: 'Ordered Oil',
-    quantity:40,
-    amount: 16440,
-    status: 'pending',
-    date: '2022-11-06',
-  },
-  {    
-    activity: 'Ordered Oil',
-    quantity:30,
-    amount: '1-0275',
-    status: 'paid',
-    date: '2022-12-03',
-  },
+    {
+      activity:'Ordered Oil',
+      quantity:30,
+      amount: 15795,
+      status: 'pending',
+      date: '2022-12-06',
+    },
+    {
+      activity:'Ordered Oil',
+      quantity:10,
+      amount: 15795,
+      status: 'Received',
+      date: '2022-12-06',
+    },
+    {
+      activity:'Ordered Oil',
+      quantity:20,
+      amount: 15795,
+      status: 'pending',
+      date: '2022-12-06',
+    },
 ];
 
 const customers = [
