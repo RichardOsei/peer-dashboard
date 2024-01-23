@@ -50,6 +50,25 @@ export async function fetchLatestInvoices() {
   }
 }
 
+export async function fetchLatestInvetories() {
+  try {
+    const data = await sql<LatestInventoryRaw>`
+      SELECT inventories.activity,inventories.quantity,inventories.amount, inventories.id
+      FROM inventories
+      ORDER BY inventories.date DESC
+      LIMIT 5`;
+
+    const latestInventories = data.rows.map((inventory) => ({
+      ...inventory,
+      amount: formatCurrency(inventory.amount),
+    }));
+    return latestInventories;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch the latest invoices.');
+  }
+}
+
 
 export async function fetchCardData() {
   try {
