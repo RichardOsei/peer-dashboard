@@ -3,6 +3,8 @@ import clsx from 'clsx';
 import { lusitana } from '@/app/ui/fonts';
 import { UserCircleIcon } from '@heroicons/react/20/solid';
 import { fetchLatestInvoices } from '@/app/lib/data';
+
+
 export default async function LatestInvoices() {
   const latestInvoices = await fetchLatestInvoices(); // Fetch data inside the component
   return (
