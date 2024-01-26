@@ -16,24 +16,6 @@ const iconMap = {
   inventories:CircleStackIcon,
 };
 
-export default async function CardWrapper() {
-  const {numberOfInvoices,
-    numberOfCustomers,
-    totalPaidInvoices,
-    totalPendingInvoices,
-    totolInventories} = await fetchCardData();
-  return (
-    <>
-      
-
-    <Card title="Collected" value={totalPaidInvoices} type="collected" />
-      <Card title="Pending" value={totalPendingInvoices} type="pending" />
-      <Card title="Total Invoices" value={numberOfInvoices} type="invoices" />
-      <Card title="Total Customers" value={numberOfCustomers} type="customers"/>
-      <Card title="Total Inventories" value={totolInventories}type="inventories"/> 
-    </>
-  );
-}
 
 export function Card({
   title,
@@ -61,3 +43,25 @@ export function Card({
     </div>
   );
 }
+
+
+export default async function CardWrapper() {
+  const {numberOfInvoices,
+    numberOfCustomers,
+    totalPaidInvoices,
+    totalPendingInvoices,
+    totolInventories} = await fetchCardData();
+  return (
+    <>
+      
+
+    <Card title="Collected" value={totalPaidInvoices} type="collected" />
+      <Card title="Pending" value={totalPendingInvoices} type="pending" />
+      <Card title="Total Invoices" value={numberOfInvoices} type="invoices" />
+      <Card title="Total Customers" value={numberOfCustomers} type="customers"/>
+      <Card title="Total Inventories" value={totolInventories}type="inventories"/> 
+    </>
+  );
+}
+
+
