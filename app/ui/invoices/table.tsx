@@ -5,7 +5,10 @@ import { formatDateToLocal, formatCurrency } from '@/app/lib/utils';
 import { fetchFilteredInvoices } from '@/app/lib/data';
 import { UserCircleIcon } from '@heroicons/react/20/solid';
 
-export default async function InvoicesTable({  query,  currentPage,}: {
+export default async function InvoicesTable({
+  query,
+  currentPage,
+}: {
   query: string;
   currentPage: number;
 }) {

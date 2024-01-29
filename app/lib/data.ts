@@ -122,7 +122,7 @@ export async function fetchFilteredInvoices(
   currentPage: number,
 ) {
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
-  noStore();
+
   try {
     const invoices = await sql<InvoicesTable>`
       SELECT
@@ -131,8 +131,8 @@ export async function fetchFilteredInvoices(
         invoices.date,
         invoices.status,
         customers.name,
-        customers.email,
-        
+        customers.email
+      
       FROM invoices
       JOIN customers ON invoices.customer_id = customers.id
       WHERE
@@ -263,3 +263,8 @@ export async function getUser(email: string) {
     throw new Error('Failed to fetch user.');
   }
 }
+
+
+
+
+
