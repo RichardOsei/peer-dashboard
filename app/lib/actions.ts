@@ -10,12 +10,15 @@ export async function createInvoice(formData: FormData) {
   console.log(rawFormData);
 }
 
-export async function createInventory(formData: FormData) {
+
+
+  export async function createInventory(formData: FormData) {
     const rawFormData = {
       activity: formData.get('activity'),
       amount: formData.get('amount'),
       status: formData.get('status'),
     };
+  
     // Test it out:
     console.log(rawFormData);
-  }
+}
