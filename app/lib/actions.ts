@@ -17,7 +17,12 @@ export async function createInventory(formData: FormData) {
     const unitPrice = formData.get('unitPrice');
     const quantity = formData.get('quantity');
     const status = formData.get('status');
-    const amount = unitPrice * quantity;
+    // Check for null and convert to numbers
+    const numericUnitPrice = unitPrice ? parseFloat(unitPrice as string) : 0;
+    const numericQuantity = quantity ? parseFloat(quantity as string) : 0;
+
+  // Perform calculations
+  const amount = numericUnitPrice * numericQuantity;
 
     const rawFormData = {
         activity,
