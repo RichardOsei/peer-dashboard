@@ -87,7 +87,7 @@ export async function fetchCardData() {
          FROM invoices`;
     const inventoryCountPromise = sql`SELECT SUM(quantity) AS total_quantity
         FROM inventories
-        WHERE activity = 'Ordered Oil';
+        WHERE activity = 'ordered oil';
     `;
 
     const data = await Promise.all([
@@ -96,12 +96,14 @@ export async function fetchCardData() {
       invoiceStatusPromise,
       inventoryCountPromise,
     ]);
+  
 
     const numberOfInvoices = Number(data[0].rows[0].count ?? '0');
     const numberOfCustomers = Number(data[1].rows[0].count ?? '0');
     const totalPaidInvoices = formatCurrency(data[2].rows[0].paid ?? '0');
     const totalPendingInvoices = formatCurrency(data[2].rows[0].pending ?? '0');
-    const totolInventories =  Number(data[3].rows[0].total_quantity ?? '0');
+    const totolInventories = Number(data[3].rows[0].total_quantity ?? '0');
+    console.log(totolInventories)
 
     return {
       numberOfCustomers,

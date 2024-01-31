@@ -1,6 +1,6 @@
 import Pagination from '@/app/ui/invoices/pagination';
 import Search from '@/app/ui/search';
-import Table from '@/app/ui/invoices/table';
+import Table from '@/app/ui/inventory/table';
 import { CreateInventory } from '@/app/ui/invoices/buttons';
 import { lusitana } from '@/app/ui/fonts';
 import { Suspense } from 'react';
