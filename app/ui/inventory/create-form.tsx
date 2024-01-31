@@ -26,23 +26,45 @@ export default function InventoryForm() {
 
         {/* Invoice Amount */}
         <div className="mb-4">
-          <label htmlFor="amount" className="mb-2 block text-sm font-medium">
-            Amount
+          <label htmlFor="unitPrice" className="mb-2 block text-sm font-medium">
+            Unit price
           </label>
           <div className="relative mt-2 rounded-md">
             <div className="relative">
               <input
-                id="amount"
-                name="amount"
+                id="unitPrice"
+                name="unitPrice"
                 type="number"
                 step="0.01"
-                placeholder="Enter amount"
+                placeholder="Enter unit price"
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
               />
               <CurrencyDollarIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
             </div>
           </div>
         </div>
+
+        <div className="mb-4">
+          <label htmlFor="quantity" className="mb-2 block text-sm font-medium">
+            Quantity
+          </label>
+          <div className="relative mt-2 rounded-md">
+            <div className="relative">
+              <input
+                id="quantity" 
+                name="quantity"
+                type="number"
+                step="0.01"
+                placeholder="Enter quantity"
+                className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+              />
+              <CurrencyDollarIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
+            </div>
+          </div>
+        </div>
+
+
+
 
         {/* Invoice Status */}
         <fieldset>
@@ -68,17 +90,17 @@ export default function InventoryForm() {
               </div>
               <div className="flex items-center">
                 <input
-                  id="paid"
+                  id="Received"
                   name="status"
                   type="radio"
                   value="paid"
                   className="h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-gray-600 focus:ring-2"
                 />
                 <label
-                  htmlFor="paid"
+                  htmlFor="Received"
                   className="ml-2 flex cursor-pointer items-center gap-1.5 rounded-full bg-green-500 px-3 py-1.5 text-xs font-medium text-white"
                 >
-                  Paid <CheckIcon className="h-4 w-4" />
+                    Received <CheckIcon className="h-4 w-4" />
                 </label>
               </div>
             </div>
