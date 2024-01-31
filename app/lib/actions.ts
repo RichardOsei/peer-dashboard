@@ -2,6 +2,8 @@
 
 import { z } from 'zod';
 import { sql } from '@vercel/postgres';
+import { revalidatePath } from 'next/cache';
+import { redirect } from 'next/navigation';
  
 const FormSchema = z.object({
   id: z.string(),
@@ -27,10 +29,17 @@ export async function createInvoice(formData: FormData) {
 
     await sql`
     INSERT INTO invoices (customer_id, amount, status, date)
-    VALUES (${customerId}, ${amountInCents}, ${status}, ${date})
-  `;
-  // Test it out:
-  console.log(formData);
+    VALUES (${customerId}, ${amountInCents}, ${status}, ${date})`;
+
+
+    // Test it out:
+    console.log(formData);
+    //redirect to invoices page
+    revalidatePath('/dashboard/invoices');
+    redirect('/dashboard/invoices');
+
+  
+  
 }
 
 
@@ -48,7 +57,7 @@ export async function createInventory(formData: FormData) {
         
     // Perform calculations
     const amount = unitPrice * quantity;    
-    const amountInCents = amount * 100;
+    
 
     //generate date format
     const date = new Date().toISOString().split('T')[0];
@@ -56,7 +65,7 @@ export async function createInventory(formData: FormData) {
     const rawFormData = {
         activity,
         quantity,
-        amountInCents,
+        amount,
         status,
         date,
       };
@@ -64,10 +73,12 @@ export async function createInventory(formData: FormData) {
     //inserting data to database
     await sql`
     INSERT INTO inventories (activity, quantity, amount, status, date)
-    VALUES (${activity},${quantity} ,${amountInCents}, ${status}, ${date})
-  `;
+    VALUES (${activity},${quantity} ,${amount}, ${status}, ${date})`;
 
     // Test it out:
     console.log(rawFormData);
+    //redirect to inventory page
+    revalidatePath('/dashboard/inventory');
+    redirect('/dashboard/inventory');
     
 }
