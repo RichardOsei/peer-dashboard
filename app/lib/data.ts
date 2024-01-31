@@ -5,6 +5,7 @@ import {
   InventoryForm,  InventoryTable,  LatestInventoryRaw,
   User,
   Revenue,
+  InventoriesTable,
 } from './definitions';
 import { formatCurrency } from './utils';
 import { unstable_noStore as noStore } from 'next/cache';
@@ -153,6 +154,47 @@ export async function fetchFilteredInvoices(
     throw new Error('Failed to fetch invoices.');
   }
 }
+
+
+
+
+
+export async function fetchFilteredInventory(
+  query: string,
+  currentPage: number,
+) {
+  const offset = (currentPage - 1) * ITEMS_PER_PAGE;
+
+  try {
+    const inventories = await sql<InventoriesTable>`
+      SELECT
+      inventories.id,
+      inventories.activity,
+      inventories.quantity,
+      inventories.amount,
+      inventories.date,
+      inventories.status    
+      
+      FROM inventories WHERE      
+        inventories.amount::text ILIKE ${`%${query}%`} OR
+        inventories.date::text ILIKE ${`%${query}%`} OR
+        inventories.status ILIKE ${`%${query}%`}
+      ORDER BY inventories.date DESC
+      LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
+    `;
+
+    return inventories.rows;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch inventories.');
+  }
+}
+
+
+
+
+
+
 
 export async function fetchInvoicesPages(query: string) {
   noStore();

@@ -70,20 +70,20 @@ export type InvoicesTable = {
   id: string;
   customer_id: string;
   name: string;
-  email: string;
-  
+  email: string;  
   date: string;
   amount: number;
   status: 'pending' | 'paid';
 };
 
 
-export type InventoryTable = {
+export type InventoriesTable = {
   id: string;
   activity:string;
   quantity:number;
   amount: number;
-  status: 'pending' | 'paid';
+  status: 'pending' | 'received';
+  date: string;
 };
 
 
