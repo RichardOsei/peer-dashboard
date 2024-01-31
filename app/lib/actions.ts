@@ -1,36 +1,64 @@
 'use server';
+
+import { z } from 'zod';
+import { sql } from '@vercel/postgres';
  
+const FormSchema = z.object({
+  id: z.string(),
+  activity: z.string(),
+  customerId: z.string(),
+  amount: z.coerce.number(),
+  quantity: z.coerce.number(),
+  unitPrice: z.coerce.number(),
+  status: z.enum(['pending', 'paid']||['pending', 'received']),
+  date: z.string(),
+});
+ 
+const CreateInvoice = FormSchema.omit({ id: true, date: true,activity: true,quantity: true});
+
 export async function createInvoice(formData: FormData) {
-  const rawFormData = {
-    customerId: formData.get('customerId'),
-    amount: formData.get('amount'),
-    status: formData.get('status'),
-  };
+    const { customerId, amount, status } = CreateInvoice.parse({
+      customerId: formData.get('customerId'),
+      amount: formData.get('amount'),
+      status: formData.get('status'),
+    });
+    const amountInCents = amount * 100;
+    const date = new Date().toISOString().split('T')[0];
+
+    await sql`
+    INSERT INTO invoices (customer_id, amount, status, date)
+    VALUES (${customerId}, ${amountInCents}, ${status}, ${date})
+  `;
   // Test it out:
-  console.log(rawFormData);
+  console.log(formData);
 }
 
 
 
-export async function createInventory(formData: FormData) {
-    const activity = formData.get('activity');
-    const unitPrice = formData.get('unitPrice');
-    const quantity = formData.get('quantity');
-    const status = formData.get('status');
-    // Check for null and convert to numbers
-    const numericUnitPrice = unitPrice ? parseFloat(unitPrice as string) : 0;
-    const numericQuantity = quantity ? parseFloat(quantity as string) : 0;
 
+
+const CreateInventory = FormSchema.omit({ id: true, date: true,customerId: true});
+export async function createInventory(formData: FormData) {    
+    const { activity,quantity,unitPrice, status } = CreateInventory.parse({
+        activity: formData.get('activity'),
+        unitPrice: formData.get('unitPrice'),
+        quantity: formData.get('quantity'),        
+        status: formData.get('status'),
+      });
+        
   // Perform calculations
-  const amount = numericUnitPrice * numericQuantity;
+  const amount = unitPrice * quantity * quantity;
 
-    const rawFormData = {
-        activity,
-        quantity,
-        amount,
-        status,
-      };
-  
+    
+    const amountInCents = amount * 100;
+    const date = new Date().toISOString().split('T')[0];
+    //inserting data to database
+    await sql`
+    INSERT INTO inventories (activity, quantity, amount, status, date)
+    VALUES (${activity},${quantity} ,${amountInCents}, ${status}, ${date})
+  `;
+
     // Test it out:
-    console.log(rawFormData);
+    console.log(FormData);
+    
 }
