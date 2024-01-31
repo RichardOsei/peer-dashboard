@@ -21,7 +21,7 @@ const inventories = [
       activity:'Ordered Oil',
       quantity:10,
       amount: 15795,
-      status: 'Received',
+      status: 'received',
       date: '2022-12-06',
     },
     {

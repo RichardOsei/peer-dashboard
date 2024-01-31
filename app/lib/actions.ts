@@ -10,11 +10,11 @@ const FormSchema = z.object({
   amount: z.coerce.number(),
   quantity: z.coerce.number(),
   unitPrice: z.coerce.number(),
-  status: z.enum(['pending', 'paid']||['pending', 'received']),
+  status: z.enum(['pending', 'paid', 'received']),
   date: z.string(),
 });
  
-const CreateInvoice = FormSchema.omit({ id: true, date: true,activity: true,quantity: true});
+const CreateInvoice = FormSchema.omit({ id: true, date: true,activity: true,quantity: true,unitPrice: true });
 
 export async function createInvoice(formData: FormData) {
     const { customerId, amount, status } = CreateInvoice.parse({
@@ -37,21 +37,30 @@ export async function createInvoice(formData: FormData) {
 
 
 
-const CreateInventory = FormSchema.omit({ id: true, date: true,customerId: true});
+const CreateInventory = FormSchema.omit({ id: true, date: true,customerId: true,amount:true});
 export async function createInventory(formData: FormData) {    
     const { activity,quantity,unitPrice, status } = CreateInventory.parse({
         activity: formData.get('activity'),
         unitPrice: formData.get('unitPrice'),
         quantity: formData.get('quantity'),        
         status: formData.get('status'),
-      });
+    });
         
-  // Perform calculations
-  const amount = unitPrice * quantity * quantity;
-
-    
+    // Perform calculations
+    const amount = unitPrice * quantity;    
     const amountInCents = amount * 100;
+
+    //generate date format
     const date = new Date().toISOString().split('T')[0];
+
+    const rawFormData = {
+        activity,
+        quantity,
+        amountInCents,
+        status,
+        date,
+      };
+
     //inserting data to database
     await sql`
     INSERT INTO inventories (activity, quantity, amount, status, date)
@@ -59,6 +68,6 @@ export async function createInventory(formData: FormData) {
   `;
 
     // Test it out:
-    console.log(FormData);
+    console.log(rawFormData);
     
 }
