@@ -104,7 +104,7 @@ export async function fetchCardData() {
     const totalPaidInvoices = formatCurrency(data[2].rows[0].paid ?? '0');
     const totalPendingInvoices = formatCurrency(data[2].rows[0].pending ?? '0');
     const totolInventories = Number(data[3].rows[0].total_quantity ?? '0');
-    console.log(totolInventories)
+  
 
     return {
       numberOfCustomers,
@@ -189,12 +189,6 @@ export async function fetchFilteredInventory(
     throw new Error('Failed to fetch inventories.');
   }
 }
-
-
-
-
-
-
 
 export async function fetchInvoicesPages(query: string) {
   noStore();

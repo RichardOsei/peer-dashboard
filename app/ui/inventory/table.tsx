@@ -88,7 +88,7 @@ export default async function InventoriesTable({
                     {inventory.quantity}
                   </td>
                   <td className="whitespace-nowrap px-3 py-3">
-                    {formatCurrency(inventory.amount)}
+                    {formatCurrency(inventory.amount *100)}
                   </td>
                   <td className="whitespace-nowrap px-3 py-3">
                     {formatDateToLocal(inventory.date)}

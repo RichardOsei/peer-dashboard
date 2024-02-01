@@ -65,6 +65,7 @@ export async function createInventory(formData: FormData) {
         date,
       };
 
+    
     //inserting data to database
     await sql`
     INSERT INTO inventories (activity, quantity, amount, status, date)
