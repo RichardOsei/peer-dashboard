@@ -2,7 +2,7 @@ import { sql } from '@vercel/postgres';
 import {
   CustomerField,  CustomersTableType,
   InvoiceForm,  InvoicesTable,  LatestInvoiceRaw,
-  InventoryForm,  InventoryTable,  LatestInventoryRaw,
+  InventoryForm,LatestInventoryRaw,
   User,
   Revenue,
   InventoriesTable,
