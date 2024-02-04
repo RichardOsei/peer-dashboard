@@ -81,7 +81,7 @@ export async function createInventory(formData: FormData) {
 
 
 // Use Zod to update the expected types
-const UpdateInvoice = FormSchema.omit({ id: true, date: true });
+const UpdateInvoice = FormSchema.omit({ id: true, date: true,activity: true,quantity: true,unitPrice: true });
  export async function updateInvoice(id: string, formData: FormData) {
   const { customerId, amount, status } = UpdateInvoice.parse({
     customerId: formData.get('customerId'),
@@ -102,7 +102,7 @@ const UpdateInvoice = FormSchema.omit({ id: true, date: true });
 }
 
 
-const UpdateInventory = FormSchema.omit({ id: true, date: true });
+const UpdateInventory = FormSchema.omit({ id: true, date: true,customerId: true,unitPrice:true });
  export async function updateInventory(id: string, formData: FormData) {
   const { activity,quantity,amount, status, } = UpdateInventory.parse({    
     activity: formData.get('activity'),
@@ -113,7 +113,7 @@ const UpdateInventory = FormSchema.omit({ id: true, date: true });
  
   await sql`
     UPDATE inventories
-    SET id = ${id},activity = ${activity},quantity=${quantity}, amount = ${amount}, status = ${status},
+    SET id = ${id},activity = ${activity},quantity=${quantity}, amount = ${amount}, status = ${status}
     WHERE id = ${id}
   `;
  
