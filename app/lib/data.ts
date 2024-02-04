@@ -238,6 +238,41 @@ export async function fetchInvoiceById(id: string) {
   }
 }
 
+
+
+
+export async function fetchInventoryById(id: string) {
+  noStore();
+  try {
+    const data = await sql<InvoiceForm>`
+      SELECT
+        inventories.id,
+        inventories.activity,
+        inventories.quantity,
+        inventories.amount,
+        inventories.status
+      FROM inventories
+      WHERE inventories.id = ${id};
+    `;
+
+    const inventory = data.rows.map((inventory) => ({
+      ...inventory,
+      // Convert amount from cents to dollars
+      //amount: inventory.amount / 100,
+    }));
+
+    return inventory[0];
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch invoice.');
+  }
+}
+
+
+
+
+
+
 export async function fetchCustomers() {
   noStore();
   try {

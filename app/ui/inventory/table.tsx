@@ -1,5 +1,5 @@
 
-import { UpdateInvoice, DeleteInvoice } from '@/app/ui/inventory/buttons';
+import { UpdateInventory, DeleteInventory } from '@/app/ui/inventory/buttons';
 import InventoryStatus from '@/app/ui/inventory/status';
 import { formatDateToLocal, formatCurrency } from '@/app/lib/utils';
 import { fetchFilteredInventory } from '@/app/lib/data';
@@ -42,8 +42,8 @@ export default async function InventoriesTable({
                     <p>{formatDateToLocal(inventory.date)}</p>
                   </div>
                   <div className="flex justify-end gap-2">
-                    <UpdateInvoice id={inventory.id} />
-                    <DeleteInvoice id={inventory.id} />
+                    <UpdateInventory id={inventory.id} />
+                    <DeleteInventory id={inventory.id} />
                   </div>
                 </div>
               </div>
@@ -98,8 +98,8 @@ export default async function InventoriesTable({
                   </td>
                   <td className="whitespace-nowrap py-3 pl-6 pr-3">
                     <div className="flex justify-end gap-3">
-                      <UpdateInvoice id={inventory.id} />
-                      <DeleteInvoice id={inventory.id} />
+                      <UpdateInventory id={inventory.id} />
+                      <DeleteInventory id={inventory.id} />
                     </div>
                   </td>
                 </tr>

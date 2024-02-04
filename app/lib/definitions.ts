@@ -123,5 +123,5 @@ export type InventoryForm = {
   activity: string
   quantity: number;  
   amount: number;
-  status: 'pending' | 'paid';
+  status: 'pending' | 'received';
 };

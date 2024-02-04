@@ -16,8 +16,9 @@ const FormSchema = z.object({
   date: z.string(),
 });
  
-const CreateInvoice = FormSchema.omit({ id: true, date: true,activity: true,quantity: true,unitPrice: true });
 
+
+const CreateInvoice = FormSchema.omit({ id: true, date: true,activity: true,quantity: true,unitPrice: true });
 export async function createInvoice(formData: FormData) {
     const { customerId, amount, status } = CreateInvoice.parse({
       customerId: formData.get('customerId'),
@@ -33,7 +34,7 @@ export async function createInvoice(formData: FormData) {
 
 
     // Test it out:
-    console.log(formData);
+    //console.log(formData);
     //redirect to invoices page
     revalidatePath('/dashboard/invoices');
     redirect('/dashboard/invoices');
@@ -65,16 +66,69 @@ export async function createInventory(formData: FormData) {
         date,
       };
 
-    
     //inserting data to database
     await sql`
     INSERT INTO inventories (activity, quantity, amount, status, date)
     VALUES (${activity},${quantity} ,${amount}, ${status}, ${date})`;
 
     // Test it out:
-    console.log(rawFormData);
+    //console.log(rawFormData);
     //redirect to inventory page
     revalidatePath('/dashboard/inventory');
     redirect('/dashboard/inventory');
     
+}
+
+
+// Use Zod to update the expected types
+const UpdateInvoice = FormSchema.omit({ id: true, date: true });
+ export async function updateInvoice(id: string, formData: FormData) {
+  const { customerId, amount, status } = UpdateInvoice.parse({
+    customerId: formData.get('customerId'),
+    amount: formData.get('amount'),
+    status: formData.get('status'),
+  });
+ 
+  const amountInCents = amount * 100;
+ 
+  await sql`
+    UPDATE invoices
+    SET customer_id = ${customerId}, amount = ${amountInCents}, status = ${status}
+    WHERE id = ${id}
+  `;
+ 
+  revalidatePath('/dashboard/invoices');
+  redirect('/dashboard/invoices');
+}
+
+
+const UpdateInventory = FormSchema.omit({ id: true, date: true });
+ export async function updateInventory(id: string, formData: FormData) {
+  const { activity,quantity,amount, status, } = UpdateInventory.parse({    
+    activity: formData.get('activity'),
+    amount: formData.get('amount'),
+    quantity: formData.get('quantity'),        
+    status: formData.get('status'),
+  });
+ 
+  await sql`
+    UPDATE inventories
+    SET id = ${id},activity = ${activity},quantity=${quantity}, amount = ${amount}, status = ${status},
+    WHERE id = ${id}
+  `;
+ 
+  revalidatePath('/dashboard/inventory');
+  redirect('/dashboard/inventory');
+}
+
+
+
+export async function deleteInvoice(id: string) {
+  await sql`DELETE FROM invoices WHERE id = ${id}`;
+  revalidatePath('/dashboard/invoices');
+}
+
+export async function deleteInventory(id: string) {
+  await sql`DELETE FROM inventories WHERE id = ${id}`;
+  revalidatePath('/dashboard/inventory');
 }
