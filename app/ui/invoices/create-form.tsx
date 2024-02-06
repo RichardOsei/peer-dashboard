@@ -110,6 +110,7 @@ export default function Form({ customers }: { customers: CustomerField[] }) {
                 <label
                   htmlFor="paid"
                   className="ml-2 flex cursor-pointer items-center gap-1.5 rounded-full bg-green-500 px-3 py-1.5 text-xs font-medium text-white"
+                  aria-describedby="amount-error"
                 >
                   Paid <CheckIcon className="h-4 w-4" />
                 </label>
@@ -117,6 +118,7 @@ export default function Form({ customers }: { customers: CustomerField[] }) {
             </div>
           </div>
           <div id="customer-error" aria-live="polite" aria-atomic="true">
+            
             {state.errors?.status &&
             state.errors.status.map((error: string) => (
             <p className="mt-2 text-sm text-red-500" key={error}>
