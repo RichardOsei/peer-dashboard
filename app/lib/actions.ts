@@ -14,16 +14,16 @@ const FormSchema = z.object({
     {invalid_type_error: 'Please select a customer.',}
   ),
   amount: z.coerce.number().gt(
-    0,{ message: 'Please enter an amount greater than $0.' }
+    0,{ message: 'Please enter a price greater than GHS 0.' }
   ),
   quantity: z.coerce.number().gt(
-    0,{ message: 'Please enter an amount greater than $0.' }
+    0,{ message: 'Please enter an quantity greater than 0.' }
   ),
   unitPrice: z.coerce.number().gt(
-    0,{ message: 'Please enter an amount greater than $0.' }
+    0,{ message: 'Please enter a greater number than GHS 0.' }
   ),
   status: z.enum(['pending', 'paid'], {
-    invalid_type_error: 'Please select an status.',
+    invalid_type_error: 'Please select status.',
   }),
   date: z.string(),
 });
@@ -40,7 +40,8 @@ export type invoiceState = {
 
 export type inventoryState = {
   errors?: {
-    activiy?: string[];
+    activity?: string[];
+    unitPrice?: string[];
     quantity?: string[];
     amount?: string[];
     status?: string[];
@@ -85,27 +86,24 @@ export async function createInvoice(prevState: invoiceState, formData: FormData)
 
 const CreateInventory = FormSchema.omit({ id: true, date: true,customerId: true,amount:true});
 export async function createInventory(prevState: inventoryState,formData: FormData) {    
-    const { activity,quantity,unitPrice, status } = CreateInventory.parse({
+  const validatedFields = CreateInventory.safeParse({
         activity: formData.get('activity'),
         unitPrice: formData.get('unitPrice'),
         quantity: formData.get('quantity'),        
         status: formData.get('status'),
-    });
-        
-    // Perform calculations
-    const amount = unitPrice * quantity;    
-    
+    });        
 
-    //generate date format
-    const date = new Date().toISOString().split('T')[0];
-
-    const rawFormData = {
-        activity,
-        quantity,
-        amount,
-        status,
-        date,
+    if (!validatedFields.success) {
+      return {
+        errors: validatedFields.error.flatten().fieldErrors,
+        message: 'Missing Fields. Failed to Create Invoice.',
       };
+    }
+    
+    const {activity, quantity, unitPrice, status } = validatedFields.data;
+    // Perform calculations   
+    const date = new Date().toISOString().split('T')[0];
+    const amount = unitPrice * quantity; 
 
     try {
     //inserting data to database
@@ -118,9 +116,6 @@ export async function createInventory(prevState: inventoryState,formData: FormDa
     };
     }
 
-    // Test it out:
-    //console.log(rawFormData);
-    //redirect to inventory page
     revalidatePath('/dashboard/inventory');
     redirect('/dashboard/inventory');
     

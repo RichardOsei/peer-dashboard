@@ -1,11 +1,16 @@
+'use client';
+
+import { useFormState } from 'react-dom';
 import Link from 'next/link';
 import {  CheckIcon,  ClockIcon,  CurrencyDollarIcon,  PencilSquareIcon,} from '@heroicons/react/24/outline';
 import { Button } from '@/app/ui/button';
 import { createInventory} from '@/app/lib/actions';
 
 export default function InventoryForm() {
+  const initialState = { message: null, errors: {} };
+  const [state, dispatch] = useFormState(createInventory, initialState);
   return (
-    <form action={createInventory}>
+    <form action={dispatch}>
       <div className="rounded-md bg-gray-50 p-4 md:p-6">
         {/* Customer Name */}
         <div className="mb-4">
@@ -19,12 +24,21 @@ export default function InventoryForm() {
                 type="text"                
                 placeholder="Enter activity"
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+                
               />            
             <PencilSquareIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
           </div>
+          <div id="quantity-error" aria-live="polite" aria-atomic="true">
+            {state.errors?.activity &&
+            state.errors.activity.map((error: string) => (
+            <p className="mt-2 text-sm text-red-500" key={error}>
+              {error}
+            </p>
+            ))}
+          </div>
         </div>
 
-        {/* Invoice Amount */}
+        
         <div className="mb-4">
           <label htmlFor="unitPrice" className="mb-2 block text-sm font-medium">
             Unit price
@@ -38,9 +52,18 @@ export default function InventoryForm() {
                 step="0.01"
                 placeholder="Enter unit price"
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+                
               />
               <CurrencyDollarIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
             </div>
+          </div>
+          <div id="quantity-error" aria-live="polite" aria-atomic="true">
+            {state.errors?.unitPrice &&
+            state.errors.unitPrice.map((error: string) => (
+            <p className="mt-2 text-sm text-red-500" key={error}>
+              {error}
+            </p>
+            ))}
           </div>
         </div>
 
@@ -60,6 +83,14 @@ export default function InventoryForm() {
               />
               <CurrencyDollarIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
             </div>
+          </div>
+          <div id="quantity-error" aria-live="polite" aria-atomic="true">
+            {state.errors?.quantity &&
+            state.errors.quantity.map((error: string) => (
+            <p className="mt-2 text-sm text-red-500" key={error}>
+              {error}
+            </p>
+            ))}
           </div>
         </div>
 
@@ -104,6 +135,15 @@ export default function InventoryForm() {
                 </label>
               </div>
             </div>
+          </div>
+          <div id="status-error" aria-live="polite" aria-atomic="true">
+            
+            {state.errors?.status &&
+            state.errors.status.map((error: string) => (
+            <p className="mt-2 text-sm text-red-500" key={error}>
+              {error}
+            </p>
+            ))}
           </div>
         </fieldset>
       </div>
