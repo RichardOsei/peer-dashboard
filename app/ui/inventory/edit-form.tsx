@@ -6,14 +6,14 @@ import Link from 'next/link';
 import { Button } from '@/app/ui/button';
 
 
-export default function EditInvetoryForm({  inventory  }: {  inventory: InventoryForm;  }) {
+export default function EditInvetoryForm({  inventory  }: {inventory: InventoryForm;  }) {
   const updateInvetoryWithId = updateInventory.bind(null, inventory.id);
   return (
     <form action={updateInvetoryWithId}>
       <div className="rounded-md bg-gray-50 p-4 md:p-6">
       {/* Activity */}
       <div className="mb-4">
-          <label htmlFor="amount" className="mb-2 block text-sm font-medium">
+          <label htmlFor="activity" className="mb-2 block text-sm font-medium">
           Activity
           </label>
           <div className="relative mt-2 rounded-md">
