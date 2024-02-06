@@ -77,8 +77,6 @@ export async function createInvoice(prevState: invoiceState, formData: FormData)
       message: 'Database Error: Failed to Create Invoice.',
     };
   }
-
-
     revalidatePath('/dashboard/invoices');
     redirect('/dashboard/invoices');
   
