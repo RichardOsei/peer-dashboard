@@ -30,10 +30,12 @@ export default function InventoryForm() {
           <div id="activity-error" aria-live="polite" aria-atomic="true">
             {state.errors?.activity &&
             state.errors.activity.map((error: string) => (
+              
             <p className="mt-2 text-sm text-red-500" key={error}>
               {error}
             </p>
-            ))}
+            )) }
+            
           </div>
         </div>
 

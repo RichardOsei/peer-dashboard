@@ -244,7 +244,7 @@ export async function fetchInvoiceById(id: string) {
 export async function fetchInventoryById(id: string) {
   noStore();
   try {
-    const data = await sql<InvoiceForm>`
+    const data = await sql<InventoryForm>`
       SELECT
         inventories.id,
         inventories.activity,

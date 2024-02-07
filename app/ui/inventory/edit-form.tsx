@@ -6,7 +6,10 @@ import Link from 'next/link';
 import { Button } from '@/app/ui/button';
 
 
-export default function EditInvetoryForm({  inventory  }: {inventory: InventoryForm;  }) {
+export default function EditInvetoryForm({  inventory  }: {
+  inventory: InventoryForm; 
+  }){
+    
   const updateInvetoryWithId = updateInventory.bind(null, inventory.id);
   return (
     <form action={updateInvetoryWithId}>
