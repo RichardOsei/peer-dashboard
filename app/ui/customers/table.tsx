@@ -4,11 +4,9 @@ import Search from '@/app/ui/search';
 import {CustomersTableType,FormattedCustomersTable,} from '@/app/lib/definitions';
 import { UserCircleIcon } from '@heroicons/react/20/solid';
 
-export default async function CustomersTable({
-  customers,
-}: {
-  customers: FormattedCustomersTable[];
-}) {
+export default async function CustomersTable({ customers,}: {  customers: FormattedCustomersTable[];}) {
+  
+
   return (
     <div className="w-full">
       <h1 className={`${lusitana.className} mb-8 text-xl md:text-2xl`}>
@@ -33,9 +31,7 @@ export default async function CustomersTable({
                             <p>{customer.name}</p>
                           </div>
                         </div>
-                        <p className="text-sm text-gray-500">
-                          {customer.email}
-                        </p>
+                        
                       </div>
                     </div>
                     <div className="flex w-full items-center justify-between border-b py-5">
@@ -60,9 +56,7 @@ export default async function CustomersTable({
                     <th scope="col" className="px-4 py-5 font-medium sm:pl-6">
                       Name
                     </th>
-                    <th scope="col" className="px-3 py-5 font-medium">
-                      Email
-                    </th>
+                  
                     <th scope="col" className="px-3 py-5 font-medium">
                       Total Invoices
                     </th>
@@ -84,9 +78,7 @@ export default async function CustomersTable({
                           <p>{customer.name}</p>
                         </div>
                       </td>
-                      <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
-                        {customer.email}
-                      </td>
+                      
                       <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
                         {customer.total_invoices}
                       </td>

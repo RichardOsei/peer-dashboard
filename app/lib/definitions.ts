@@ -12,13 +12,18 @@ export type User = {
 export type Customer = {
   id: string;
   name: string;
-  email: string;
-
-};
+  };
 
 export type Invoice = {
   id: string; // Will be created on the database
   customer_id: string;
+  amount: number; // Stored in cents
+  status: 'pending' | 'paid';
+  date: string;
+};
+
+export type InvoiceNew = {
+  id: string; // Will be created on the database
   amount: number; // Stored in cents
   status: 'pending' | 'paid';
   date: string;
@@ -42,7 +47,6 @@ export type Revenue = {
 export type LatestInvoice = {
   id: string;
   name: string;
-  email: string;
   amount: string;
 };
 
@@ -69,7 +73,7 @@ export type InvoicesTable = {
   id: string;
   customer_id: string;
   name: string;
-  email: string;  
+   
   date: string;
   amount: number;
   status: 'pending' | 'paid';
@@ -89,7 +93,7 @@ export type InventoriesTable = {
 export type CustomersTableType = {
   id: string;
   name: string;
-  email: string;
+
 
   total_invoices: number;
   total_pending: number;
@@ -99,7 +103,7 @@ export type CustomersTableType = {
 export type FormattedCustomersTable = {
   id: string;
   name: string;
-  email: string;
+  
   total_invoices: number;
   total_pending: string;
   total_paid: string;

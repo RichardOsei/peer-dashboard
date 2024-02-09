@@ -12,6 +12,9 @@ const FormSchema = z.object({
   activity: z.string(
     {invalid_type_error: 'Please input activity.',}
   ),
+  newCustomerName: z.string(
+    {invalid_type_error: 'Please add customer.',}
+  ),
   customerId: z.string(
     {invalid_type_error: 'Please select a customer.',}
   ), 
@@ -24,7 +27,7 @@ const FormSchema = z.object({
   unitPrice: z.coerce.number().gt(
     0,{ message: 'Please enter a greater number than GHS 0.' }
   ),
-  status: z.enum(['pending', 'paid'], {
+  status: z.enum(['pending', 'paid','received'], {
     invalid_type_error: 'Please select status.',
   }),
   date: z.string(),
@@ -34,6 +37,16 @@ const FormSchema = z.object({
 export type invoiceState = {
   errors?: {
     customerId?: string[];
+    amount?: string[];
+    status?: string[];
+  };
+  message?: string | null;
+};
+
+export type invoiceStateNew = {
+  errors?: {
+    newCustomerName?: string[];
+    customerId?: string[];    
     amount?: string[];
     status?: string[];
   };
@@ -52,13 +65,62 @@ export type inventoryState = {
 };
 
 
-const CreateInvoice = FormSchema.omit({ id: true, date: true,activity: true,quantity: true,unitPrice: true });
+const CreateInvoiceNew = FormSchema.omit({ id: true, date: true,activity: true,quantity: true,unitPrice: true});
+export async function createInvoiceNew(prevState: invoiceStateNew, formData: FormData) {
+  const validatedFields = CreateInvoiceNew.safeParse({
+      newCustomerName: formData.get('newCustomerName'),
+      amount: formData.get('amount'),
+      status: formData.get('status'),
+    });
+    
+    if (!validatedFields.success) {
+      return {
+        errors: validatedFields.error.flatten().fieldErrors,
+        message: 'Missing Fields. Failed to Create Invoice.',
+      };
+    }
 
+    const { newCustomerName, amount, status } = validatedFields.data;
+    const date = new Date().toISOString().split('T')[0]; 
+
+      
+    try {
+      // Insert the new customer
+      await sql`INSERT INTO customers (name) VALUES (${newCustomerName})`;
+    
+      // Retrieve the customer ID of the newly inserted customer
+      const result = await sql<{ customerId: string }>`SELECT id AS "customerId" FROM customers WHERE name = '${newCustomerName}'`;
+      const customerId = result[0]?.customerId;
+    
+      //if (customerId) {
+        // Use the retrieved customer ID to create the invoice
+        await sql`INSERT INTO invoices (customer_id, amount, status, date)
+                  VALUES (${result.customerId}, ${amount}, ${status}, ${date})`;
+      //} else {
+        // Handle the case where the customer ID is not found
+      //  return {
+      //    message: 'Customer ID not found.',
+    //    };
+    //  }
+    } catch (error) {
+      return {
+        message: 'Database Error: Failed to Create Invoice.',
+      };
+    }
+    
+    revalidatePath('/dashboard/invoices');
+    redirect('/dashboard/invoices');
+  
+}
+
+
+const CreateInvoice = FormSchema.omit({ id: true, date: true,activity: true,quantity: true,unitPrice: true , newCustomerName: true});
 export async function createInvoice(prevState: invoiceState, formData: FormData) {
   const validatedFields = CreateInvoice.safeParse({
       customerId: formData.get('customerId'),
       amount: formData.get('amount'),
       status: formData.get('status'),
+
     });
     
     if (!validatedFields.success) {
@@ -86,7 +148,9 @@ export async function createInvoice(prevState: invoiceState, formData: FormData)
 }
 
 
-const CreateInventory = FormSchema.omit({ id: true, date: true,customerId: true,amount:true});
+
+
+const CreateInventory = FormSchema.omit({ id: true, date: true,customerId: true,amount:true , newCustomerName: true});
 export async function createInventory(prevState: inventoryState,formData: FormData) {    
   const validatedFields = CreateInventory.safeParse({
         activity: formData.get('activity'),
@@ -125,7 +189,7 @@ export async function createInventory(prevState: inventoryState,formData: FormDa
 
 
 // Use Zod to update the expected types
-const UpdateInvoice = FormSchema.omit({ id: true, date: true,activity: true,quantity: true,unitPrice: true });
+const UpdateInvoice = FormSchema.omit({ id: true, date: true,activity: true,quantity: true,unitPrice: true, newCustomerName: true });
  export async function updateInvoice(id: string, formData: FormData) {
   const { customerId, amount, status } = UpdateInvoice.parse({
     customerId: formData.get('customerId'),
@@ -152,7 +216,7 @@ const UpdateInvoice = FormSchema.omit({ id: true, date: true,activity: true,quan
 }
 
 
-const UpdateInventory = FormSchema.omit({ id: true, date: true,customerId: true,unitPrice:true });
+const UpdateInventory = FormSchema.omit({ id: true, date: true,customerId: true,unitPrice:true, newCustomerName: true });
  export async function updateInventory(id: string, formData: FormData) {
   const { activity,quantity,amount, status, } = UpdateInventory.parse({    
     activity: formData.get('activity'),
