@@ -4,14 +4,14 @@ import { useFormState } from 'react-dom';
 import Link from 'next/link';
 import { CurrencyDollarIcon, UserCircleIcon, CheckIcon, ClockIcon } from '@heroicons/react/24/outline';
 import { Button } from '@/app/ui/button';
-import { createInvoice,createInvoiceNew } from '@/app/lib/actions';
+import { createInvoice} from '@/app/lib/actions';
 import { CustomerField } from '@/app/lib/definitions';
 import { eventNames } from 'process';
 
 export default function Form({ customers }: { customers: CustomerField[] }) {
   const initialState = { message: null, errors: {} };
   const [isNewCustomer, setIsNewCustomer] = useState(false);
-  const [state, dispatch] = useFormState(isNewCustomer ?  createInvoiceNew: createInvoice, initialState);
+  const [state, dispatch] = useFormState(createInvoice, initialState);
 
 
   const toggleCustomer = (event: { preventDefault: () => void; }) => {

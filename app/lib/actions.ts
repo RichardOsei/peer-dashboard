@@ -64,56 +64,6 @@ export type inventoryState = {
   message?: string | null;
 };
 
-
-const CreateInvoiceNew = FormSchema.omit({ id: true, date: true,activity: true,quantity: true,unitPrice: true});
-export async function createInvoiceNew(prevState: invoiceStateNew, formData: FormData) {
-  const validatedFields = CreateInvoiceNew.safeParse({
-      newCustomerName: formData.get('newCustomerName'),
-      amount: formData.get('amount'),
-      status: formData.get('status'),
-    });
-    
-    if (!validatedFields.success) {
-      return {
-        errors: validatedFields.error.flatten().fieldErrors,
-        message: 'Missing Fields. Failed to Create Invoice.',
-      };
-    }
-
-    const { newCustomerName, amount, status } = validatedFields.data;
-    const date = new Date().toISOString().split('T')[0]; 
-
-      
-    try {
-      // Insert the new customer
-      await sql`INSERT INTO customers (name) VALUES (${newCustomerName})`;
-    
-      // Retrieve the customer ID of the newly inserted customer
-      const result = await sql<{ customerId: string }>`SELECT id AS "customerId" FROM customers WHERE name = '${newCustomerName}'`;
-      const customerId = result[0]?.customerId;
-    
-      //if (customerId) {
-        // Use the retrieved customer ID to create the invoice
-        await sql`INSERT INTO invoices (customer_id, amount, status, date)
-                  VALUES (${result.customerId}, ${amount}, ${status}, ${date})`;
-      //} else {
-        // Handle the case where the customer ID is not found
-      //  return {
-      //    message: 'Customer ID not found.',
-    //    };
-    //  }
-    } catch (error) {
-      return {
-        message: 'Database Error: Failed to Create Invoice.',
-      };
-    }
-    
-    revalidatePath('/dashboard/invoices');
-    redirect('/dashboard/invoices');
-  
-}
-
-
 const CreateInvoice = FormSchema.omit({ id: true, date: true,activity: true,quantity: true,unitPrice: true , newCustomerName: true});
 export async function createInvoice(prevState: invoiceState, formData: FormData) {
   const validatedFields = CreateInvoice.safeParse({
