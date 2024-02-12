@@ -33,156 +33,125 @@ const inventories = [
     },
 ];
 
-const customers = [
-  {
-    id: '3958dc9e-712f-4377-85e9-fec4b6a6442a',
-    name: 'Delba de Oliveira',
-  
-  
-  },
-  {
-    id: '3958dc9e-742f-4377-85e9-fec4b6a6442a',
-    name: 'Lee Robinson',
-  
-    
-  },
-  {
-    id: '3958dc9e-737f-4377-85e9-fec4b6a6442a',
-    name: 'Hector Simpson',
-    
 
-  },
-  {
-    id: '50ca3e18-62cd-11ee-8c99-0242ac120002',
-    name: 'Steven Tey',
-    
-  
-  },
-  {
-    id: '3958dc9e-787f-4377-85e9-fec4b6a6442a',
-    name: 'Steph Dietz',
-    
-
-  },
-  {
-    id: '76d65c26-f784-44a2-ac19-586678f7c2f2',
-    name: 'Michael Novotny',
-  
-  
-  },
-  {
-    id: 'd6e15727-9fe1-4961-8c5b-ea44a9bd81aa',
-    name: 'Evil Rabbit',
-  
-    
-  },
-  {
-    id: '126eed9c-c90c-4ef6-a4a8-fcf7408d3c66',
-    name: 'Emil Kowalski',
-    
-    
-  },
-  {
-    id: 'CC27C14A-0ACF-4F4A-A6C9-D45682C144B9',
-    name: 'Amy Burns',
-  
-  
-  },
-  {
-    id: '13D07535-C59E-4157-A011-F8D2EF4E0CBB',
-    name: 'Balazs Orban',
-    
-
-  },
-];
 
 const invoices = [
   {
-    customer_id: customers[0].id,
+    activity:'Sale',
+    quantity:30,
+    unitprice:200,
     amount: 15795,
     status: 'pending',
     date: '2022-12-06',
   },
   {
-    customer_id: customers[1].id,
+    activity:'Sale',
+    quantity:30,
+    unitprice:200,
     amount: 20348,
     status: 'pending',
     date: '2022-11-14',
   },
   {
-    customer_id: customers[4].id,
+    activity:'Sale',
+    quantity:30,
+    unitprice:200,
     amount: 3040,
     status: 'paid',
     date: '2022-10-29',
   },
   {
-    customer_id: customers[3].id,
+    activity:'Sale',
+    quantity:30,
+    unitprice:200,
     amount: 44800,
     status: 'paid',
     date: '2023-09-10',
   },
   {
-    customer_id: customers[5].id,
+    activity:'Sale',
+    quantity:30,
+    unitprice:200,
     amount: 34577,
     status: 'pending',
     date: '2023-08-05',
   },
   {
-    customer_id: customers[7].id,
-    amount: 54246,
+    activity:'Sale',
+    quantity:30,
+    unitprice:200,
+    amount: 8945,
     status: 'pending',
     date: '2023-07-16',
   },
   {
-    customer_id: customers[6].id,
+    activity:'Sale',
+    quantity:30,
+    unitprice:200,
     amount: 666,
     status: 'pending',
     date: '2023-06-27',
   },
   {
-    customer_id: customers[3].id,
+    activity:'Sale',
+    quantity:30,
+    unitprice:200,
     amount: 32545,
     status: 'paid',
     date: '2023-06-09',
   },
   {
-    customer_id: customers[4].id,
+    activity:'Sale',
+    quantity:30,
+    unitprice:200,
     amount: 1250,
     status: 'paid',
     date: '2023-06-17',
   },
   {
-    customer_id: customers[5].id,
-    amount: 8546,
+    activity:'Sale',
+    quantity:30,
+    unitprice:200,
+    amount: 8945,
     status: 'paid',
     date: '2023-06-07',
   },
   {
-    customer_id: customers[1].id,
+    activity:'Sale',
+    quantity:30,
+    unitprice:200,
     amount: 500,
     status: 'paid',
     date: '2023-08-19',
   },
   {
-    customer_id: customers[5].id,
+    activity:'Sale',
+    quantity:30,
+    unitprice:200,
     amount: 8945,
     status: 'paid',
     date: '2023-06-03',
   },
   {
-    customer_id: customers[2].id,
+    activity:'Sale',
+    quantity:30,
+    unitprice:200,
     amount: 8945,
     status: 'paid',
     date: '2023-06-18',
   },
   {
-    customer_id: customers[0].id,
+    activity:'Sale',
+    quantity:30,
+    unitprice:200,
     amount: 8945,
     status: 'paid',
     date: '2023-10-04',
   },
   {
-    customer_id: customers[2].id,
+    activity:'Sale',
+    quantity:30,
+    unitprice:200,
     amount: 1000,
     status: 'paid',
     date: '2022-06-05',
@@ -206,7 +175,6 @@ const revenue = [
 
 module.exports = {
   users,
-  customers,
   invoices,
   inventories,
   revenue,

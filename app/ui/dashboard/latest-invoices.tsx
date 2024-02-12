@@ -31,7 +31,7 @@ export default async function LatestInvoices() {
                   <UserCircleIcon className='text-sky-100 w-14'/>
                   <div className="grow min-w-0">
                     <p className="truncate text-sm font-semibold md:text-base">
-                      {invoice.name}
+                      {invoice.activity}
                     </p>
                     <p className="hidden text-sm text-gray-500 sm:block">
                     

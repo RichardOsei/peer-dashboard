@@ -36,22 +36,16 @@ const FormSchema = z.object({
 
 export type invoiceState = {
   errors?: {
-    customerId?: string[];
+    activity?: string[];
+    unitPrice?: string[];
+    quantity?: string[];
     amount?: string[];
     status?: string[];
   };
   message?: string | null;
 };
 
-export type invoiceStateNew = {
-  errors?: {
-    newCustomerName?: string[];
-    customerId?: string[];    
-    amount?: string[];
-    status?: string[];
-  };
-  message?: string | null;
-};
+
 
 export type inventoryState = {
   errors?: {
@@ -64,12 +58,13 @@ export type inventoryState = {
   message?: string | null;
 };
 
-const CreateInvoice = FormSchema.omit({ id: true, date: true,activity: true,quantity: true,unitPrice: true , newCustomerName: true});
+const CreateInvoice = FormSchema.omit({ id: true, date: true});
 export async function createInvoice(prevState: invoiceState, formData: FormData) {
   const validatedFields = CreateInvoice.safeParse({
-      customerId: formData.get('customerId'),
-      amount: formData.get('amount'),
-      status: formData.get('status'),
+    activity: formData.get('activity'),
+    unitPrice: formData.get('unitPrice'),
+    quantity: formData.get('quantity'),        
+    status: formData.get('status'),
 
     });
     
@@ -80,13 +75,17 @@ export async function createInvoice(prevState: invoiceState, formData: FormData)
       };
     }
 
-    const { customerId, amount, status } = validatedFields.data;
+    const {activity, quantity, unitPrice, status } = validatedFields.data;
+
+    // Perform calculations   
     const date = new Date().toISOString().split('T')[0];
+    const amount = unitPrice * quantity; 
+
 
     try {
     await sql`
     INSERT INTO invoices (customer_id, amount, status, date)
-    VALUES (${customerId}, ${amount}, ${status}, ${date})`;
+    VALUES (${activity},${unitPrice},${quantity} ,${amount}, ${status}, ${date})`;
   } catch (error) {
     return {
       message: 'Database Error: Failed to Create Invoice.',

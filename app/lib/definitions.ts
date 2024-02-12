@@ -9,25 +9,18 @@ export type User = {
   password: string;
 };
 
-export type Customer = {
-  id: string;
-  name: string;
-  };
 
 export type Invoice = {
-  id: string; // Will be created on the database
-  customer_id: string;
-  amount: number; // Stored in cents
-  status: 'pending' | 'paid';
+  id: string;
+  activity: string;
+  unitPrice: number;
+  quantity: number;
+  amount: number;
   date: string;
+  status: 'pending' | 'paid';
 };
 
-export type InvoiceNew = {
-  id: string; // Will be created on the database
-  amount: number; // Stored in cents
-  status: 'pending' | 'paid';
-  date: string;
-};
+
 
 export type Inventory = {
   id: string;
@@ -35,7 +28,6 @@ export type Inventory = {
   quantity: number;
   amount: number;
   date: string;
-
   status: 'pending' | 'received';
 };
 
@@ -46,7 +38,7 @@ export type Revenue = {
 
 export type LatestInvoice = {
   id: string;
-  name: string;
+  activity: string;
   amount: string;
 };
 
